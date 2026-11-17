@@ -1,8 +1,12 @@
 .divination-two-col {
+  position: absolute;
+  top: 80px;
+  left: 220px;
+  width: calc(100% - 220px);
+  height: calc(100% - 125px);
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 20px;
-  height: 100%;
   overflow: auto;
   padding: 20px 24px;
   font-family: var(--serif);

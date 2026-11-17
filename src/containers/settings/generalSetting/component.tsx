@@ -250,80 +250,6 @@ const GeneralSetting = () => {
         </div>
 
         <div className="setting-dialog-new-title">
-          <Trans>Language</Trans>
-          <select
-            name=""
-            className="lang-setting-dropdown"
-            value={ConfigService.getReaderConfig("lang") || "en"}
-            onChange={(event) => {
-              changeLanguage(event.target.value);
-            }}
-          >
-            {langList.map((item) => (
-              <option
-                value={item.value}
-                key={item.value}
-                className="lang-setting-option"
-              >
-                {item.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="setting-dialog-new-title">
-          <Trans>Default search engine</Trans>
-          <select
-            name=""
-            className="lang-setting-dropdown"
-            value={searchEngine}
-            onChange={(event) => {
-              changeSearch(event.target.value);
-            }}
-          >
-            {searchList.map((item) => (
-              <option
-                value={item.value}
-                key={item.value}
-                className="lang-setting-option"
-              >
-                {t(item.label)}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="setting-dialog-new-title">
-          <Trans>Auto switch to shelf on startup</Trans>
-          <select
-            name=""
-            className="lang-setting-dropdown"
-            value={state.startupShelf || ""}
-            onChange={(event) => {
-              const value = event.target.value;
-              ConfigService.setReaderConfig("startupShelf", value);
-              setState((prev) => ({ ...prev, startupShelf: value }));
-              toast.success(t("Change successful"));
-            }}
-          >
-            <option
-              value=""
-              className="lang-setting-option"
-            >
-              {t("Disabled")}
-            </option>
-            {Object.keys(ConfigService.getAllMapConfig("shelfList") || {}).map(
-              (shelfName) => (
-                <option
-                  value={shelfName}
-                  key={shelfName}
-                  className="lang-setting-option"
-                >
-                  {shelfName}
-                </option>
-              )
-            )}
-          </select>
-        </div>
-        <div className="setting-dialog-new-title">
           <Trans>Divination category</Trans>
         </div>
         {categories.map((cat, index) => (
@@ -439,6 +365,82 @@ const GeneralSetting = () => {
             {t("Add")}
           </span>
         </div>
+
+<div className="setting-dialog-new-title">
+          <Trans>Language</Trans>
+          <select
+            name=""
+            className="lang-setting-dropdown"
+            value={ConfigService.getReaderConfig("lang") || "en"}
+            onChange={(event) => {
+              changeLanguage(event.target.value);
+            }}
+          >
+            {langList.map((item) => (
+              <option
+                value={item.value}
+                key={item.value}
+                className="lang-setting-option"
+              >
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="setting-dialog-new-title">
+          <Trans>Default search engine</Trans>
+          <select
+            name=""
+            className="lang-setting-dropdown"
+            value={searchEngine}
+            onChange={(event) => {
+              changeSearch(event.target.value);
+            }}
+          >
+            {searchList.map((item) => (
+              <option
+                value={item.value}
+                key={item.value}
+                className="lang-setting-option"
+              >
+                {t(item.label)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="setting-dialog-new-title">
+          <Trans>Auto switch to shelf on startup</Trans>
+          <select
+            name=""
+            className="lang-setting-dropdown"
+            value={state.startupShelf || ""}
+            onChange={(event) => {
+              const value = event.target.value;
+              ConfigService.setReaderConfig("startupShelf", value);
+              setState((prev) => ({ ...prev, startupShelf: value }));
+              toast.success(t("Change successful"));
+            }}
+          >
+            <option
+              value=""
+              className="lang-setting-option"
+            >
+              {t("Disabled")}
+            </option>
+            {Object.keys(ConfigService.getAllMapConfig("shelfList") || {}).map(
+              (shelfName) => (
+                <option
+                  value={shelfName}
+                  key={shelfName}
+                  className="lang-setting-option"
+                >
+                  {shelfName}
+                </option>
+              )
+            )}
+          </select>
+        </div>
+        
       </>
   );
 };

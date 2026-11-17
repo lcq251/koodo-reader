@@ -22,6 +22,7 @@ const CATEGORY_METHOD: Record<string, string> = {
 
 function TwoColumn() {
   const category = useAppStore((s) => s.sidebar.category);
+  const isCollapsed = useAppStore((s) => s.sidebar.isCollapsed);
   // AppContext.jsx 为 qimen-react 移植的 JS 模块，无 TS 类型，这里显式断言
   const { switchMethod, method, result, run, options, setOptions } = useApp() as any;
   const methodId = CATEGORY_METHOD[category] || "meihua";
@@ -35,7 +36,14 @@ function TwoColumn() {
   const Board = method.board;
 
   return (
-    <div className="divination-two-col">
+    <div
+      className="divination-two-col"
+      style={
+        isCollapsed
+          ? { width: "calc(100vw - 70px)", left: "70px" }
+          : {}
+      }
+    >
       <div className="divination-left">
         <div className="divination-method-title">{method.name}</div>
         <Input value={options} onChange={setOptions} />
