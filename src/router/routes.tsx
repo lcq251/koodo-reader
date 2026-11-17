@@ -2,9 +2,11 @@
 import DeletedBookList from "../containers/lists/deletedBookList";
 import NoteList from "../containers/lists/noteList";
 import EmptyPage from "../containers/emptyPage";
+import DivinationPage from "../containers/divination";
 
 export const routes = [
   { path: "empty", component: EmptyPage },
+  { path: "divination", component: DivinationPage },
   { path: "note", component: NoteList },
   { path: "highlight", component: NoteList },
   { path: "home", component: BookList },

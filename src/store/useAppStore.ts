@@ -32,6 +32,7 @@ import { handleExitApp } from "../utils/request/common";
 import { HighlightValue, langToName } from "../utils/common";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
+import { getDivinationCategories } from "../constants/divinationCategory";
 
 const collectionUtil = new CollectionUtil(ConfigService);
 const highlightUtil = new HighlightUtil(ConfigService);
@@ -179,7 +180,7 @@ const initialViewArea = {
 const initialSidebar = {
   mode: "home",
   shelfTitle: "",
-  category: "",
+  category: getDivinationCategories()[0]?.name || "梅花",
   isCollapsed: ConfigService.getReaderConfig("isCollapsed") === "yes",
 };
 

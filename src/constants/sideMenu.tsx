@@ -1,7 +1,12 @@
 export const sideMenu = [
   {
-    name: "Books",
+    name: "Divination",
     icon: "home-line",
+    mode: "divination",
+  },
+  {
+    name: "Books",
+    icon: "bookshelf-line",
     mode: "home",
   },
   {

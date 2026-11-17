@@ -212,12 +212,12 @@ const BookList = () => {
   const handleBooks = () => {
     let bookMode = isSearch
       ? "search"
-      : category
-        ? "category"
-        : shelfTitle
-          ? "shelf"
-          : mode === "favorite"
-            ? "favorite"
+      : shelfTitle
+        ? "shelf"
+        : mode === "favorite"
+          ? "favorite"
+          : category
+            ? "category"
             : stateRef.current.isHideShelfBook
               ? "hide"
               : "home";

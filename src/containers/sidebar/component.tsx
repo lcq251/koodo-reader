@@ -5,7 +5,6 @@ import "./sidebar.css";
 import { sideMenu } from "../../constants/sideMenu";
 import { ConfigService } from "../../assets/lib/kookit-extra-browser.min";
 import { getWebsiteUrl, openInBrowser } from "../../utils/common";
-import { Trans } from "react-i18next";
 import toast from "react-hot-toast";
 import logoDark from "../../assets/images/logo-dark.png";
 import logoDarkPro from "../../assets/images/logo-dark-pro.png";
@@ -18,10 +17,7 @@ import {
   parseBookDragData,
 } from "../../utils/reader/bookDrag";
 import { useAppStore } from "../../store/useAppStore";
-import {
-  getDivinationCategories,
-  sortCategoriesByPinyin,
-} from "../../constants/divinationCategory";
+import { getDivinationCategories } from "../../constants/divinationCategory";
 
 export interface SidebarState {
   hoverMode: string;
@@ -73,7 +69,6 @@ const Sidebar = () => {
     navigate(`/manager/${mode}`);
     handleMode(mode);
     handleShelf("");
-    handleCategory("");
     handleSearch(false);
     handleSortDisplay(false);
   };
@@ -113,7 +108,6 @@ const Sidebar = () => {
     toast.success(t("Addition successful"));
     handleFetchBooks();
     handleShelf("");
-    handleCategory("");
     handleMode("favorite");
     navigate("/manager/favorite");
   };
@@ -134,7 +128,6 @@ const Sidebar = () => {
     toast.success(t("Deletion successful"));
     handleFetchBooks();
     handleShelf("");
-    handleCategory("");
     handleMode("trash");
     navigate("/manager/trash");
   };
@@ -277,19 +270,14 @@ const Sidebar = () => {
           className="side-menu-container-parent"
           style={isCollapsed ? { width: "70px" } : {}}
         >
-          <ul className="side-menu-container">{renderSideMenu()}</ul>
           {!isCollapsed && (
             <div className="side-category-container">
-              <div className="side-shelf-title">
-                <Trans>Divination category</Trans>
-              </div>
               <select
                 className="side-category-select"
                 value={category}
                 onChange={(event) => handleCategoryChange(event.target.value)}
               >
-                <option value="">{t("All books")}</option>
-                {sortCategoriesByPinyin(getDivinationCategories()).map((cat) => (
+                {getDivinationCategories().map((cat) => (
                   <option key={cat.name} value={cat.name}>
                     {cat.name}
                   </option>
@@ -297,6 +285,7 @@ const Sidebar = () => {
               </select>
             </div>
           )}
+          <ul className="side-menu-container">{renderSideMenu()}</ul>
         </div>
         {/* Stats button at the bottom */}
         <div className="side-menu-about" style={{ paddingBottom: 8 }}>
