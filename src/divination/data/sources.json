@@ -1,0 +1,20 @@
+{
+  "version": "classic-v1",
+  "texts": {
+    "meihua": {
+      "file": "meihua.txt",
+      "sha256": "88aa99ae6d75d570ef0db6a9a32d4fd2a0f688cd13549d9d11e6304f99da8bba",
+      "title": "梅花易數",
+      "source": "維基文庫《梅花易數》三卷",
+      "note": "繁體原文，三卷"
+    },
+    "zhouyi": {
+      "file": "zhouyi.txt",
+      "sha256": "40359e294527662408a9cf21936b2fed22412ba96b3544f0204e7120d29e8f9e",
+      "title": "周易",
+      "source": "iching-shifa 開源庫",
+      "note": "六十四卦卦辭 / 爻辭 / 彖辭，opencc-js 轉繁體"
+    }
+  },
+  "sourceLevels": ["明確規則", "主題規則", "案例", "象意"]
+}

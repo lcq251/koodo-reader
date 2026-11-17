@@ -1,0 +1,743 @@
+{
+  "version": "classic-v2",
+  "sourceFile": "meihua.txt",
+  "note": "規則 label 均為原文直引（逐字對應 meihua.txt 行號），非歸納轉述。stage 為《占卜總決》五層遞進：1=易辭 2=體用生克 3=克應 4=動靜 5=綜合。when.field='always' 表示無條件普適原則。",
+  "rules": [
+    {
+      "id": "core-body-use",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyControlsUse"
+      },
+      "label": "體克用，諸事吉",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:778"
+      ],
+      "baihua": "體卦克制用卦，所問諸事皆吉。"
+    },
+    {
+      "id": "core-body-use",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useControlsBody"
+      },
+      "label": "用克體，諸事凶",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:778"
+      ],
+      "baihua": "用卦克制體卦，所問諸事皆凶。"
+    },
+    {
+      "id": "core-body-use",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyGeneratesUse"
+      },
+      "label": "體生用，有耗失之患",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:778"
+      ],
+      "baihua": "體卦生用卦，有耗散損失之患。"
+    },
+    {
+      "id": "core-body-use",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useGeneratesBody"
+      },
+      "label": "用生體，有進益之喜",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:778"
+      ],
+      "baihua": "用卦生體卦，有進益之喜。"
+    },
+    {
+      "id": "core-body-use",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "same"
+      },
+      "label": "體用比和，則百事順遂",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:778"
+      ],
+      "baihua": "體卦用卦五行相同比和，則百事順遂。"
+    },
+    {
+      "id": "intent-general",
+      "intents": [
+        "general"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyControlsUse"
+      },
+      "label": "體克用則吉",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:822"
+      ],
+      "baihua": "體克用則吉。"
+    },
+    {
+      "id": "intent-general",
+      "intents": [
+        "general"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useControlsBody"
+      },
+      "label": "用克體不宜",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:822"
+      ],
+      "baihua": "用克體則不適宜。"
+    },
+    {
+      "id": "intent-general",
+      "intents": [
+        "general"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyGeneratesUse"
+      },
+      "label": "體生用有耗失之患",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:822"
+      ],
+      "baihua": "體生用有耗失之患。"
+    },
+    {
+      "id": "intent-general",
+      "intents": [
+        "general"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useGeneratesBody"
+      },
+      "label": "用生體有進益之喜",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:822"
+      ],
+      "baihua": "用生體有進益之喜。"
+    },
+    {
+      "id": "intent-general",
+      "intents": [
+        "general"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "same"
+      },
+      "label": "體用比和，謀為吉利",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:822"
+      ],
+      "baihua": "體用比和，謀事吉利。"
+    },
+    {
+      "id": "intent-relationship",
+      "intents": [
+        "relationship"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useGeneratesBody"
+      },
+      "label": "用生體，婚易成，或因婚有得",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:833"
+      ],
+      "baihua": "用生體，婚姻易成，或因婚有所得。"
+    },
+    {
+      "id": "intent-relationship",
+      "intents": [
+        "relationship"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyGeneratesUse"
+      },
+      "label": "體生用，婚難成，或因婚有失",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:833"
+      ],
+      "baihua": "體生用，婚姻難成，或因婚有所失。"
+    },
+    {
+      "id": "intent-relationship",
+      "intents": [
+        "relationship"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyControlsUse"
+      },
+      "label": "體克用，可成但成之遲",
+      "polarity": "neutral",
+      "sourceRefs": [
+        "meihua.txt:833"
+      ],
+      "baihua": "體克用，可成但成得遲。"
+    },
+    {
+      "id": "intent-relationship",
+      "intents": [
+        "relationship"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useControlsBody"
+      },
+      "label": "用克體，不可成，成亦有害",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:833"
+      ],
+      "baihua": "用克體，不可成，即便成也有害。"
+    },
+    {
+      "id": "intent-relationship",
+      "intents": [
+        "relationship"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "same"
+      },
+      "label": "體用比和，婚姻吉利",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:833"
+      ],
+      "baihua": "體用比和，婚姻吉利。"
+    },
+    {
+      "id": "intent-wealth",
+      "intents": [
+        "wealth"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyControlsUse"
+      },
+      "label": "體克用，有財",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:868"
+      ],
+      "baihua": "體克用，有財。"
+    },
+    {
+      "id": "intent-wealth",
+      "intents": [
+        "wealth"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useControlsBody"
+      },
+      "label": "用克體，無財",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:868"
+      ],
+      "baihua": "用克體，無財。"
+    },
+    {
+      "id": "intent-wealth",
+      "intents": [
+        "wealth"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyGeneratesUse"
+      },
+      "label": "體生用，財有損耗之憂",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:868"
+      ],
+      "baihua": "體生用，錢財有損耗之憂。"
+    },
+    {
+      "id": "intent-wealth",
+      "intents": [
+        "wealth"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useGeneratesBody"
+      },
+      "label": "用生體，財有進益之喜",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:868"
+      ],
+      "baihua": "用生體，錢財有進益之喜。"
+    },
+    {
+      "id": "intent-wealth",
+      "intents": [
+        "wealth"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "same"
+      },
+      "label": "體用比和，財利快意",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:868"
+      ],
+      "baihua": "體用比和，財利快意。"
+    },
+    {
+      "id": "intent-house",
+      "intents": [
+        "house"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyControlsUse"
+      },
+      "label": "體克用，則家宅多吉",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:827"
+      ],
+      "baihua": "體克用，家宅多吉。"
+    },
+    {
+      "id": "intent-house",
+      "intents": [
+        "house"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useControlsBody"
+      },
+      "label": "用克體，則家宅多凶",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:827"
+      ],
+      "baihua": "用克體，家宅多凶。"
+    },
+    {
+      "id": "intent-house",
+      "intents": [
+        "house"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyGeneratesUse"
+      },
+      "label": "體生用，多耗散，或防失盜之憂",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:827"
+      ],
+      "baihua": "體生用，多有耗散，或防失盜之憂。"
+    },
+    {
+      "id": "intent-house",
+      "intents": [
+        "house"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useGeneratesBody"
+      },
+      "label": "用生體，多進益，或有饋送之喜",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:827"
+      ],
+      "baihua": "用生體，多有進益，或有饋送之喜。"
+    },
+    {
+      "id": "intent-house",
+      "intents": [
+        "house"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "same"
+      },
+      "label": "體用比和，家宅安穩",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:827"
+      ],
+      "baihua": "體用比和，家宅安穩。"
+    },
+    {
+      "id": "intent-travel",
+      "intents": [
+        "travel"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyControlsUse"
+      },
+      "label": "體克用，可行，所至多得意",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:876"
+      ],
+      "baihua": "體克用，可以出行，所到之處多得意。"
+    },
+    {
+      "id": "intent-travel",
+      "intents": [
+        "travel"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useControlsBody"
+      },
+      "label": "用克體，出則有禍",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:876"
+      ],
+      "baihua": "用克體，出行則有禍。"
+    },
+    {
+      "id": "intent-travel",
+      "intents": [
+        "travel"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "bodyGeneratesUse"
+      },
+      "label": "體生用，出行有破耗之失",
+      "polarity": "negative",
+      "sourceRefs": [
+        "meihua.txt:876"
+      ],
+      "baihua": "體生用，出行有破耗之失。"
+    },
+    {
+      "id": "intent-travel",
+      "intents": [
+        "travel"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "useGeneratesBody"
+      },
+      "label": "用生體，有意外之財",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:876"
+      ],
+      "baihua": "用生體，出行有意外之財。"
+    },
+    {
+      "id": "intent-travel",
+      "intents": [
+        "travel"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "relation",
+        "equals": "same"
+      },
+      "label": "體用比和，出行順快",
+      "polarity": "positive",
+      "sourceRefs": [
+        "meihua.txt:876"
+      ],
+      "baihua": "體用比和，出行順快。"
+    },
+    {
+      "id": "intent-weather",
+      "intents": [
+        "weather"
+      ],
+      "sourceLevel": "主題規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "always",
+        "equals": true
+      },
+      "label": "凡占天時，不分體用，全觀諸卦，詳推五行：離多主晴，坎多主雨，坤乃陰晦，乾主晴明，震多則春夏雷轟，巽多則四時風烈，艮多則久雨必晴，兌多則不雨亦陰",
+      "polarity": "neutral",
+      "sourceRefs": [
+        "meihua.txt:817"
+      ],
+      "baihua": "占天時不分體用，全觀諸卦詳推五行：離卦多主晴，坎卦多主雨，坤卦主陰晦，乾卦主晴明，震卦多則春夏雷轟，巽卦多則四時風烈，艮卦多則久雨必晴，兌卦多則不雨亦陰。"
+    },
+    {
+      "id": "principle-mutual-change",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "always",
+        "equals": true
+      },
+      "label": "以體為其主，互用變皆為應。用為占之即應，互為中間之應，變為事占之終應",
+      "polarity": "neutral",
+      "sourceRefs": [
+        "meihua.txt:1173"
+      ],
+      "baihua": "以體卦為主，互卦用卦變卦皆為應。用卦為所占之即應，互卦為中間之應，變卦為事之終應。"
+    },
+    {
+      "id": "principle-wang-shuai",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "always",
+        "equals": true
+      },
+      "label": "體卦宜盛旺，氣旺而又逢生則吉，重遇克則凶；若體衰而逢克，則其凶甚矣。克體之卦氣宜衰",
+      "polarity": "neutral",
+      "sourceRefs": [
+        "meihua.txt:1043",
+        "meihua.txt:1183"
+      ],
+      "baihua": "體卦宜旺盛，氣旺又逢生則吉，重重遇克則凶；若體卦衰而逢克，則其凶更甚。克體之卦氣宜衰。"
+    },
+    {
+      "id": "principle-sheng-ke-ti",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 2,
+      "when": {
+        "field": "always",
+        "equals": true
+      },
+      "label": "占吉事則看卦中有生體之卦，吉事應之必速；生體是用卦則事即成，生體是互卦則漸成，生體是變卦則稍遲。無生體之卦，有克體之卦，則事不諧矣",
+      "polarity": "neutral",
+      "sourceRefs": [
+        "meihua.txt:1168"
+      ],
+      "baihua": "占吉事看卦中有無生體之卦，吉事應驗必速；生體的是用卦則事即成，生體的是互卦則漸成，生體的是變卦則稍遲。無生體之卦而有克體之卦，則事不諧。"
+    },
+    {
+      "id": "principle-zhen-sheng-ke",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 3,
+      "when": {
+        "field": "always",
+        "equals": true
+      },
+      "label": "外卦須明其真生真克之五行以分輕重：真火能克金，形色則不能克；木之所忌者，快刀銳刃、巨斧大鋸",
+      "polarity": "neutral",
+      "sourceRefs": [
+        "meihua.txt:1180"
+      ],
+      "baihua": "外卦須明真生真克之五行以分輕重：真火（爐中火、窯灶火）能克金，形色之火（紅紫之色、中虛之形）不能克；木所忌的是快刀銳刃、巨斧大鋸。"
+    },
+    {
+      "id": "principle-bu-ke-zhi-yi",
+      "intents": [
+        "general",
+        "relationship",
+        "wealth",
+        "house",
+        "travel",
+        "weather"
+      ],
+      "sourceLevel": "明確規則",
+      "quoteType": "直引",
+      "stage": 5,
+      "when": {
+        "field": "always",
+        "equals": true
+      },
+      "label": "要在圓機，不可執。用《易》斷卦，當用理勝處驗之，不可拘執於一",
+      "polarity": "neutral",
+      "sourceRefs": [
+        "meihua.txt:759",
+        "meihua.txt:768"
+      ],
+      "baihua": "斷卦要在圓機變通，不可執一。用《易》斷卦，當以理勝之處驗證，不可拘執於一端。"
+    }
+  ]
+}

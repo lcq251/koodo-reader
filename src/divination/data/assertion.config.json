@@ -1,0 +1,20 @@
+{
+  "version": "assertion-v1",
+  "note": "断言算法配置：五层递进 + 来源优先级 + 结论聚合规则 + 展示层映射。改此文件即可调整算法与展示，无需改代码。",
+  "stages": [
+    { "id": 1, "name": "易辭" },
+    { "id": 2, "name": "體用生克" },
+    { "id": 3, "name": "克應" },
+    { "id": 4, "name": "動靜" },
+    { "id": 5, "name": "綜合" }
+  ],
+  "sourcePriority": ["明確規則", "主題規則", "案例", "象意"],
+  "decisiveLevels": ["明確規則", "主題規則"],
+  "verdict": { "positive": "吉", "negative": "凶", "neutral": "平" },
+  "conflictText": "吉凶互見，不可執一，需結合互卦、變卦與旺衰複核",
+  "noDecisiveText": "無明確吉凶之斷，參互變旺衰以詳審",
+  "levelClass": { "明確規則": "lv1", "主題規則": "lv2", "案例": "lv3", "象意": "lv4" },
+  "verdictClass": { "吉": "positive", "凶": "negative", "平": "neutral", "吉凶互見": "conflict" },
+  "noteText": "斷語按《占卜總決》五層遞進，由算法聚合結論；吉凶並列不合成分數，原文直引附行號可溯源。",
+  "emptyText": "無匹配規則"
+}

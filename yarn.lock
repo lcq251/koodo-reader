@@ -5472,6 +5472,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+lunar-javascript@^1.7.7:
+  version "1.7.8"
+  resolved "https://registry.npmmirror.com/lunar-javascript/-/lunar-javascript-1.7.8.tgz#2e611c65de9d80e766484d5726a389fd7ca04526"
+  integrity sha512-T79Lq2t5zjPu7nnkuUn3xFqIMIB5LCVSn6uJXQLvgWEqUGdE4KQXqQOVBaoYsVHY/8MIwFd7ol9dJ5bP2ItXUQ==
+
 lzma-native@^8.0.5:
   version "8.0.6"
   resolved "https://registry.yarnpkg.com/lzma-native/-/lzma-native-8.0.6.tgz#3ea456209d643bafd9b5d911781bdf0b396b2665"

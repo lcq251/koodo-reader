@@ -86,10 +86,8 @@ const Sidebar = () => {
   const handleCategoryChange = (value: string) => {
     handleCategory(value);
     handleShelf("");
-    handleMode("home");
     handleSearch(false);
     handleSortDisplay(false);
-    navigate("/manager/home");
   };
   const handleFavoriteDrop = (event: React.DragEvent) => {
     event.preventDefault();

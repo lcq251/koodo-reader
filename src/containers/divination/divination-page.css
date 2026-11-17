@@ -1,0 +1,44 @@
+.divination-two-col {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+  height: 100%;
+  overflow: auto;
+  padding: 20px 24px;
+  font-family: var(--serif);
+  color: var(--ink);
+}
+@media (max-width: 940px) {
+  .divination-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+.divination-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  align-self: start;
+}
+.divination-method-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--cinnabar);
+  margin-bottom: 6px;
+}
+.divination-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.board-empty {
+  padding: 40px;
+  text-align: center;
+  color: var(--ink-3);
+  background: linear-gradient(180deg, var(--paper-3), var(--paper-2));
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+}
