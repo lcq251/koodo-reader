@@ -228,3 +228,23 @@
 .icon-idea {
   font-size: 20px;
 }
+.side-category-container {
+  margin-left: 20px;
+  margin-top: 14px;
+  padding-bottom: 10px;
+}
+.side-category-container .side-shelf-title {
+  margin-top: 0;
+}
+.side-category-select {
+  width: calc(100% - 40px);
+  height: 32px;
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 0 8px;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.03);
+  color: inherit;
+}

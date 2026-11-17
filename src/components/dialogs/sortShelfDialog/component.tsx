@@ -121,7 +121,6 @@ const SortShelfDialog = () => {
             list={sortedShelfList}
             setList={(newState) => updateSortedShelfList(newState)}
             animation={200}
-            delayOnTouchStart={true}
             delay={2}
             scroll={true}
             scrollSensitivity={140}

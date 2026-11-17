@@ -179,6 +179,7 @@ const initialViewArea = {
 const initialSidebar = {
   mode: "home",
   shelfTitle: "",
+  category: "",
   isCollapsed: ConfigService.getReaderConfig("isCollapsed") === "yes",
 };
 
@@ -234,6 +235,7 @@ export type AppActionName =
   | "handleChangeDirection"
   | "handleCloudSyncFunc"
   | "handleCollapse"
+  | "handleCategory"
   | "handleCollectionDetailDialog"
   | "handleCollectionDialog"
   | "handleCollectionDialogBooks"
@@ -1066,6 +1068,7 @@ export const useAppStore = create<AppState>()((set, get) => {
 
     // sidebar
     handleShelf: (shelfTitle: string) => setSidebar({ shelfTitle }),
+    handleCategory: (category: string) => setSidebar({ category }),
     handleCollapse: (isCollapsed: boolean) => setSidebar({ isCollapsed }),
     handleMode: (mode: string) => setSidebar({ mode }),
 

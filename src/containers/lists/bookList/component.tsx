@@ -20,6 +20,10 @@ import { isElectron } from "react-device-detect";
 import DatabaseService from "../../../utils/storage/databaseService";
 import { throttle } from "../../../utils/common";
 import { useAppStore } from "../../../store/useAppStore";
+import {
+  getCategoryBookKeys,
+  getDivinationCategories,
+} from "../../../constants/divinationCategory";
 
 export interface BookListState {
   favoriteBooks: number;
@@ -53,6 +57,7 @@ const BookList = () => {
   const mode = useAppStore((s) => s.sidebar.mode);
   const selectedBooks = useAppStore((s) => s.manager.selectedBooks);
   const shelfTitle = useAppStore((s) => s.sidebar.shelfTitle);
+  const category = useAppStore((s) => s.sidebar.category);
   const isCollapsed = useAppStore((s) => s.sidebar.isCollapsed);
   const searchResults = useAppStore((s) => s.manager.searchResults);
   const isSearch = useAppStore((s) => s.manager.isSearch);
@@ -101,6 +106,11 @@ const BookList = () => {
       return currentShelfList.indexOf(item.key) > -1;
     });
     return shelfItems;
+  };
+
+  const handleCategoryFilter = (items: any[], category: string) => {
+    const cat = getDivinationCategories().find((c) => c.name === category);
+    return handleKeyFilter(items, getCategoryBookKeys(cat));
   };
 
   //get the searched books according to the index
@@ -202,24 +212,28 @@ const BookList = () => {
   const handleBooks = () => {
     let bookMode = isSearch
       ? "search"
-      : shelfTitle
-        ? "shelf"
-        : mode === "favorite"
-          ? "favorite"
-          : stateRef.current.isHideShelfBook
-            ? "hide"
-            : "home";
+      : category
+        ? "category"
+        : shelfTitle
+          ? "shelf"
+          : mode === "favorite"
+            ? "favorite"
+            : stateRef.current.isHideShelfBook
+              ? "hide"
+              : "home";
     let filteredBooks =
       bookMode === "search"
         ? searchResults
-        : bookMode === "shelf"
-          ? handleShelf(books, shelfTitle)
-          : bookMode === "favorite"
-            ? handleKeyFilter(
-                books,
-                ConfigService.getAllListConfig("favoriteBooks")
-              )
-            : books;
+        : bookMode === "category"
+          ? handleCategoryFilter(books, category)
+          : bookMode === "shelf"
+            ? handleShelf(books, shelfTitle)
+            : bookMode === "favorite"
+              ? handleKeyFilter(
+                  books,
+                  ConfigService.getAllListConfig("favoriteBooks")
+                )
+              : books;
     filteredBooks = resolveCollectionItems(filteredBooks);
     if (bookMode === "hide") {
       filteredBooks = handleFilterShelfBook(filteredBooks);
@@ -419,6 +433,7 @@ const BookList = () => {
     isSearch,
     mode,
     shelfTitle,
+    category,
   });
   useEffect(() => {
     const prevProps = prevPropsRef.current;
@@ -428,13 +443,15 @@ const BookList = () => {
       isSearch,
       mode,
       shelfTitle,
+      category,
     };
     if (
       prevProps.books !== books ||
       prevProps.searchResults !== searchResults ||
       prevProps.isSearch !== isSearch ||
       prevProps.mode !== mode ||
-      prevProps.shelfTitle !== shelfTitle
+      prevProps.shelfTitle !== shelfTitle ||
+      prevProps.category !== category
     ) {
       const nextDisplayedBooksCount = getBookCountPerPage();
       setState((prevState) => ({
@@ -451,7 +468,7 @@ const BookList = () => {
       loadFullBooksData(nextDisplayedBooksCount);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [books, searchResults, isSearch, mode, shelfTitle]);
+  }, [books, searchResults, isSearch, mode, shelfTitle, category]);
 
   // Migrated comment
   const prevReadingStatusFilterRef = useRef(state.readingStatusFilter);

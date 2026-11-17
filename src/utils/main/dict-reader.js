@@ -1827,7 +1827,9 @@ class BglReader {
 /* -------------------------------------------------------------------------- */
 
 function classifyFile(filePath) {
-  const name = path.basename(filePath);
+  // 兼容 Windows 反斜杠路径：`path.basename` 在 POSIX 平台不识别 `\` 分隔符，
+  // 先归一化为 `/` 再取 basename，否则 Windows 导出的路径会整体被当作文件名。
+  const name = path.basename(filePath.replace(/\\/g, "/"));
   const lower = name.toLowerCase();
   const lastDot = lower.lastIndexOf(".");
   const extension = lastDot >= 0 ? lower.slice(lastDot + 1) : "";

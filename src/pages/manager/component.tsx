@@ -38,6 +38,7 @@ import {
 import Footer from "../../components/footer";
 import ProtectionOverlay from "../../components/protection";
 import { useAppStore } from "../../store/useAppStore";
+import { initDivinationDemoData } from "../../utils/divination/init";
 
 const collectionUtil = new CollectionUtil(ConfigService);
 
@@ -158,7 +159,9 @@ const Manager = () => {
   };
 
   useEffect(() => {
-    handleFetchBooks();
+    initDivinationDemoData().then(() => {
+      handleFetchBooks();
+    });
     handleFetchPlugins();
     handleFetchNotes();
     handleFetchBookmarks();
