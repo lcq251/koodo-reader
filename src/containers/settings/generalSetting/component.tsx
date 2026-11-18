@@ -101,6 +101,7 @@ const GeneralSetting = () => {
   );
   const [newMethodName, setNewMethodName] = useState("");
   const [newMethodCode, setNewMethodCode] = useState("");
+  const [expandedShelfCat, setExpandedShelfCat] = useState<number | null>(null);
 
   const shelfNameList = () =>
     Object.keys(ConfigService.getAllMapConfig("shelfList") || {});
@@ -276,138 +277,6 @@ const GeneralSetting = () => {
   };
   return (
       <>
-        {renderSwitchOption(generalSettingList)}
-
-        <div className="setting-dialog-new-title">
-          <Trans>Reset main window's position</Trans>
-
-          <span
-            className="change-location-button"
-            onClick={() => {
-              handleResetMainPosition();
-            }}
-          >
-            <Trans>Reset</Trans>
-          </span>
-        </div>
-
-        <div className="setting-dialog-new-title">
-          <Trans>Divination category</Trans>
-        </div>
-        {categories.map((cat, index) => (
-          <div
-            key={`${cat.name}-${index}`}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "6px",
-              padding: "10px 0",
-              borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
-            }}
-          >
-            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-              <input
-                value={cat.name}
-                placeholder={t("Category name")}
-                onChange={(event) =>
-                  updateCategory(index, { name: event.target.value })
-                }
-                style={{
-                  width: "40%",
-                  height: "32px",
-                  padding: "0 8px",
-                  borderRadius: "6px",
-                  border: "1px solid rgba(0,0,0,0.15)",
-                }}
-              />
-              <input
-                value={cat.pinyin}
-                placeholder={t("Pinyin")}
-                onChange={(event) =>
-                  updateCategory(index, { pinyin: event.target.value })
-                }
-                style={{
-                  width: "40%",
-                  height: "32px",
-                  padding: "0 8px",
-                  borderRadius: "6px",
-                  border: "1px solid rgba(0,0,0,0.15)",
-                }}
-              />
-              <span
-                style={{
-                  cursor: "pointer",
-                  color: "#d9534f",
-                  fontSize: "14px",
-                  whiteSpace: "nowrap",
-                }}
-                onClick={() => removeCategory(index)}
-              >
-                {t("Delete")}
-              </span>
-            </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-              {shelfNameList().map((shelf) => (
-                <label
-                  key={shelf}
-                  style={{
-                    fontSize: "13px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "4px",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={cat.shelves.includes(shelf)}
-                    onChange={() => toggleCategoryShelf(index, shelf)}
-                  />
-                  {shelf}
-                </label>
-              ))}
-            </div>
-          </div>
-        ))}
-        <div
-          style={{
-            display: "flex",
-            gap: "8px",
-            marginTop: "12px",
-            alignItems: "center",
-          }}
-        >
-          <input
-            value={newCategoryName}
-            placeholder={t("New category name")}
-            onChange={(event) => setNewCategoryName(event.target.value)}
-            style={{
-              width: "40%",
-              height: "32px",
-              padding: "0 8px",
-              borderRadius: "6px",
-              border: "1px solid rgba(0,0,0,0.15)",
-            }}
-          />
-          <input
-            value={newCategoryPinyin}
-            placeholder={t("Pinyin")}
-            onChange={(event) => setNewCategoryPinyin(event.target.value)}
-            style={{
-              width: "40%",
-              height: "32px",
-              padding: "0 8px",
-              borderRadius: "6px",
-              border: "1px solid rgba(0,0,0,0.15)",
-            }}
-          />
-          <span
-            style={{ cursor: "pointer", fontSize: "14px", whiteSpace: "nowrap" }}
-            onClick={addCategory}
-          >
-            {t("Add")}
-          </span>
-        </div>
-
         <div className="setting-dialog-new-title">
           <Trans>Divination code</Trans>
         </div>
@@ -482,6 +351,156 @@ const GeneralSetting = () => {
             {t("Add")}
           </span>
         </div>
+
+<div className="setting-dialog-new-title">
+          <Trans>Divination category</Trans>
+        </div>
+        {categories.map((cat, index) => (
+          <div
+            key={`${cat.name}-${index}`}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "6px",
+              padding: "10px 0",
+              borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
+            }}
+          >
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <input
+                value={cat.name}
+                placeholder={t("Category name")}
+                onChange={(event) =>
+                  updateCategory(index, { name: event.target.value })
+                }
+                style={{
+                  width: "40%",
+                  height: "32px",
+                  padding: "0 8px",
+                  borderRadius: "6px",
+                  border: "1px solid rgba(0,0,0,0.15)",
+                }}
+              />
+              <input
+                value={cat.pinyin}
+                placeholder={t("Pinyin")}
+                onChange={(event) =>
+                  updateCategory(index, { pinyin: event.target.value })
+                }
+                style={{
+                  width: "40%",
+                  height: "32px",
+                  padding: "0 8px",
+                  borderRadius: "6px",
+                  border: "1px solid rgba(0,0,0,0.15)",
+                }}
+              />
+              <span
+                style={{
+                  cursor: "pointer",
+                  color: "#d9534f",
+                  fontSize: "14px",
+                  whiteSpace: "nowrap",
+                }}
+                onClick={() => removeCategory(index)}
+              >
+                {t("Delete")}
+              </span>
+              <span
+                style={{
+                  cursor: "pointer",
+                  color: "#0078d4",
+                  fontSize: "14px",
+                  whiteSpace: "nowrap",
+                }}
+                onClick={() =>
+                  setExpandedShelfCat(expandedShelfCat === index ? null : index)
+                }
+              >
+                {expandedShelfCat === index ? t("Collapse") : t("Bookshelf")}
+              </span>
+            </div>
+            {expandedShelfCat === index && (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                {shelfNameList().map((shelf) => (
+                  <label
+                    key={shelf}
+                    style={{
+                      fontSize: "13px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={cat.shelves.includes(shelf)}
+                      onChange={() => toggleCategoryShelf(index, shelf)}
+                    />
+                    {shelf}
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            marginTop: "12px",
+            alignItems: "center",
+          }}
+        >
+          <input
+            value={newCategoryName}
+            placeholder={t("New category name")}
+            onChange={(event) => setNewCategoryName(event.target.value)}
+            style={{
+              width: "40%",
+              height: "32px",
+              padding: "0 8px",
+              borderRadius: "6px",
+              border: "1px solid rgba(0,0,0,0.15)",
+            }}
+          />
+          <input
+            value={newCategoryPinyin}
+            placeholder={t("Pinyin")}
+            onChange={(event) => setNewCategoryPinyin(event.target.value)}
+            style={{
+              width: "40%",
+              height: "32px",
+              padding: "0 8px",
+              borderRadius: "6px",
+              border: "1px solid rgba(0,0,0,0.15)",
+            }}
+          />
+          <span
+            style={{ cursor: "pointer", fontSize: "14px", whiteSpace: "nowrap" }}
+            onClick={addCategory}
+          >
+            {t("Add")}
+          </span>
+        </div>
+        {renderSwitchOption(generalSettingList)}
+
+        <div className="setting-dialog-new-title">
+          <Trans>Reset main window's position</Trans>
+
+          <span
+            className="change-location-button"
+            onClick={() => {
+              handleResetMainPosition();
+            }}
+          >
+            <Trans>Reset</Trans>
+          </span>
+        </div>
+
+        
+
+        
 
         <div className="setting-dialog-new-title">
           <Trans>Language</Trans>
