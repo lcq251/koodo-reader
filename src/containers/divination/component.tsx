@@ -6,9 +6,7 @@ import {
 } from "../../divination/config/methods.config.jsx";
 import layoutConfig from "../../divination/config/layout.config.js";
 import InfoPanel from "../../divination/modules/InfoPanel.jsx";
-import DetailPanel from "../../divination/modules/DetailPanel.jsx";
 import DuanYuPanel from "../../divination/modules/DuanYuPanel.jsx";
-import JieGuaSteps from "../../divination/modules/JieGuaSteps.jsx";
 import { useAppStore } from "../../store/useAppStore";
 import "../../divination/divination.css";
 import "./divination-page.css";
@@ -50,6 +48,8 @@ function TwoColumn() {
         <button className="pai" onClick={() => run(options)}>
           排 盤
         </button>
+        <InfoPanel />
+        <DuanYuPanel />
       </div>
       <div className="divination-right">
         {result ? (
@@ -57,10 +57,6 @@ function TwoColumn() {
         ) : (
           <div className="board-empty">點擊「排 盤」後於此顯示盤面</div>
         )}
-        <InfoPanel />
-        <DetailPanel />
-        <DuanYuPanel />
-        <JieGuaSteps />
       </div>
     </div>
   );
