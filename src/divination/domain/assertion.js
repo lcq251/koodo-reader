@@ -4,6 +4,21 @@ import configData from '../data/assertion.config.json'
 
 export const ASSERTION_CONFIG = configData
 
+// 运行时配置覆盖（断言配置界面写入 localStorage，优先于静态 config）
+export function getAssertionConfig() {
+  try {
+    const override = JSON.parse(
+      localStorage.getItem('assertionConfigOverride') || 'null'
+    )
+    if (override && typeof override === 'object') {
+      return { ...configData, ...override }
+    }
+  } catch (e) {
+    // 忽略解析错误，回退静态配置
+  }
+  return configData
+}
+
 // 五层递进 stage 名（供面板分组展示）
 export const STAGES = Object.fromEntries(configData.stages.map((s) => [s.id, s.name]))
 
@@ -15,7 +30,7 @@ export const NOTE_TEXT = configData.noteText         // 底部声明
 export const EMPTY_TEXT = configData.emptyText       // 无匹配文案
 
 // 断言算法核心：把匹配到的断语（findings）聚合为一个综合结论
-export function assert(findings, config = ASSERTION_CONFIG) {
+export function assert(findings, config = getAssertionConfig()) {
   const prio = (f) => {
     const i = config.sourcePriority.indexOf(f.sourceLevel)
     return i === -1 ? config.sourcePriority.length : i

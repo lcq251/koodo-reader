@@ -18,6 +18,9 @@ import TextSetting from "../../../containers/settings/textSetting";
 import DictSetting from "../../../containers/settings/dictSetting";
 import MoreSetting from "../../../containers/settings/moreSetting";
 import ShortcutSetting from "../../../containers/settings/shortcutSetting";
+import ShelfSetting from "../../../containers/settings/shelfSetting";
+import PaipanSetting from "../../../containers/settings/paipanSetting";
+import DuanyuSetting from "../../../containers/settings/duanyuSetting";
 import { isElectron } from "react-device-detect";
 const SettingDialog = () => {
   const settingMode = useAppStore((s) => s.manager.settingMode);
@@ -97,6 +100,12 @@ const SettingDialog = () => {
         return "Local dictionary";
       case "more":
         return "More settings";
+      case "shelf":
+        return "Shelf config";
+      case "paipan":
+        return "Paipan config";
+      case "duanyu":
+        return "Assertion config";
       default:
         return "Setting";
     }
@@ -114,6 +123,19 @@ const SettingDialog = () => {
           <div className="setting-dialog-sidebar-group">
             {renderSidebarItem("account", "icon-user", "Account", "18px")}
             {renderSidebarItem("general", "icon-setting", "General", "")}
+            {renderSidebarItem(
+              "shelf",
+              "icon-bookshelf-line",
+              "Shelf config",
+              ""
+            )}
+            {renderSidebarItem("paipan", "icon-detail", "Paipan config", "")}
+            {renderSidebarItem(
+              "duanyu",
+              "icon-edit-line",
+              "Assertion config",
+              ""
+            )}
             {renderSidebarItem("data", "icon-archive", "Data", "15px")}
             {renderSidebarItem(
               "reading",
@@ -236,6 +258,12 @@ const SettingDialog = () => {
               <DictSetting />
             ) : settingMode === "more" ? (
               <MoreSetting />
+            ) : settingMode === "shelf" ? (
+              <ShelfSetting />
+            ) : settingMode === "paipan" ? (
+              <PaipanSetting />
+            ) : settingMode === "duanyu" ? (
+              <DuanyuSetting />
             ) : (
               <PluginSetting />
             )}
