@@ -17,6 +17,12 @@ import {
   getDivinationCategories,
   setDivinationCategories,
 } from "../../../constants/divinationCategory";
+import {
+  getCustomMethods,
+  saveCustomMethod,
+  removeCustomMethod,
+  CustomMethod,
+} from "../../../divination/custom/registry";
 
 export interface SettingInfoState {
   isMergeWord: boolean;
@@ -90,6 +96,11 @@ const GeneralSetting = () => {
   );
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryPinyin, setNewCategoryPinyin] = useState("");
+  const [customMethods, setCustomMethods] = useState<CustomMethod[]>(() =>
+    getCustomMethods()
+  );
+  const [newMethodName, setNewMethodName] = useState("");
+  const [newMethodCode, setNewMethodCode] = useState("");
 
   const shelfNameList = () =>
     Object.keys(ConfigService.getAllMapConfig("shelfList") || {});
@@ -121,6 +132,37 @@ const GeneralSetting = () => {
   };
   const removeCategory = (index: number) => {
     persistCategories(categories.filter((_, i) => i !== index));
+  };
+  const addCustomMethod = () => {
+    const name = newMethodName.trim();
+    if (!name || !newMethodCode.trim()) {
+      toast(t("Shelf Title is Empty"));
+      return;
+    }
+    const method: CustomMethod = {
+      id: `custom-${Date.now()}`,
+      name,
+      code: newMethodCode.trim(),
+    };
+    saveCustomMethod(method);
+    // 同步加入典籍类型列表，供侧边栏下拉选择
+    const cats = getDivinationCategories();
+    if (!cats.find((c) => c.name === name)) {
+      const next = [...cats, { name, pinyin: "", shelves: [] }];
+      setDivinationCategories(next);
+      setCategories(next);
+    }
+    setCustomMethods(getCustomMethods());
+    setNewMethodName("");
+    setNewMethodCode("");
+    toast.success(t("Change successful"));
+  };
+  const removeCustom = (id: string, name: string) => {
+    removeCustomMethod(id);
+    const cats = getDivinationCategories().filter((c) => c.name !== name);
+    setDivinationCategories(cats);
+    setCategories(cats);
+    setCustomMethods(getCustomMethods());
   };
   const toggleCategoryShelf = (index: number, shelfName: string) => {
     const cat = categories[index];
@@ -366,7 +408,82 @@ const GeneralSetting = () => {
           </span>
         </div>
 
-<div className="setting-dialog-new-title">
+        <div className="setting-dialog-new-title">
+          <Trans>Divination code</Trans>
+        </div>
+        {customMethods.map((m) => (
+          <div
+            key={m.id}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "6px 0",
+            }}
+          >
+            <span style={{ fontSize: "14px", flex: 1 }}>{m.name}</span>
+            <span
+              style={{
+                cursor: "pointer",
+                color: "#d9534f",
+                fontSize: "14px",
+                whiteSpace: "nowrap",
+              }}
+              onClick={() => removeCustom(m.id, m.name)}
+            >
+              {t("Delete")}
+            </span>
+          </div>
+        ))}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+            marginTop: "8px",
+          }}
+        >
+          <input
+            value={newMethodName}
+            placeholder={t("Category name")}
+            onChange={(event) => setNewMethodName(event.target.value)}
+            style={{
+              width: "40%",
+              height: "32px",
+              padding: "0 8px",
+              borderRadius: "6px",
+              border: "1px solid rgba(0,0,0,0.15)",
+            }}
+          />
+          <textarea
+            value={newMethodCode}
+            placeholder="function run(options) { return { summary: '...' } }"
+            onChange={(event) => setNewMethodCode(event.target.value)}
+            style={{
+              width: "100%",
+              height: "120px",
+              padding: "8px",
+              borderRadius: "6px",
+              border: "1px solid rgba(0,0,0,0.15)",
+              fontFamily: "monospace",
+              fontSize: "12px",
+              resize: "vertical",
+            }}
+          />
+          <span
+            style={{
+              cursor: "pointer",
+              fontSize: "14px",
+              color: "#0078d4",
+              whiteSpace: "nowrap",
+            }}
+            onClick={addCustomMethod}
+          >
+            {t("Add")}
+          </span>
+        </div>
+
+        <div className="setting-dialog-new-title">
           <Trans>Language</Trans>
           <select
             name=""

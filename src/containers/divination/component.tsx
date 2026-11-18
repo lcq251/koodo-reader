@@ -7,6 +7,10 @@ import {
 import layoutConfig from "../../divination/config/layout.config.js";
 import InfoPanel from "../../divination/modules/InfoPanel.jsx";
 import DuanYuPanel from "../../divination/modules/DuanYuPanel.jsx";
+import GenericInput from "../../divination/custom/GenericInput.jsx";
+import GenericBoard from "../../divination/custom/GenericBoard.jsx";
+import { loadRun, parseDate } from "../../divination/custom/loader.js";
+import { getCustomMethods } from "../../divination/custom/registry";
 import { useAppStore } from "../../store/useAppStore";
 import "../../divination/divination.css";
 import "./divination-page.css";
@@ -18,29 +22,67 @@ const CATEGORY_METHOD: Record<string, string> = {
   奇门: "qimen",
 };
 
-function TwoColumn() {
+// 合并内置方法与动态加载的自定义排盘方法
+function buildAllMethods() {
+  const custom: Record<string, any> = {};
+  for (const m of getCustomMethods()) {
+    try {
+      const runFn = loadRun(m.code);
+      custom[m.name] = {
+        id: m.id,
+        name: m.name,
+        input: GenericInput,
+        board: GenericBoard,
+        run: (opts: any) => runFn({ ...parseDate(opts.date), ...opts }),
+        summary: () => ({
+          pillars: [],
+          headline: m.name,
+          sub: "自定義排盤",
+          kv: [],
+        }),
+      };
+    } catch (e) {
+      console.error("自定义排盘方法加载失败:", m.name, e);
+    }
+  }
+  return { ...METHODS, ...custom };
+}
+
+// 解析典籍类型 → methodId（内置映射 + 动态方法名）
+function resolveMethodId(category: string, methods: Record<string, any>) {
+  if (CATEGORY_METHOD[category]) return CATEGORY_METHOD[category];
+  if (methods[category]) return category;
+  return "meihua";
+}
+
+function TwoColumn({ methods }: { methods: Record<string, any> }) {
   const category = useAppStore((s) => s.sidebar.category);
   const isCollapsed = useAppStore((s) => s.sidebar.isCollapsed);
   // AppContext.jsx 为 qimen-react 移植的 JS 模块，无 TS 类型，这里显式断言
-  const { switchMethod, method, result, run, options, setOptions } = useApp() as any;
-  const methodId = CATEGORY_METHOD[category] || "meihua";
+  const { switchMethod, method, result, run, options, setOptions } =
+    useApp() as any;
+  const methodId = resolveMethodId(category, methods);
 
   useEffect(() => {
     switchMethod(methodId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
 
-  const Input = method.input;
-  const Board = method.board;
+  const Input = method?.input;
+  const Board = method?.board;
+
+  if (!method) {
+    return (
+      <div className="board-empty">
+        方法未找到: {methodId}（分类: {category}）
+      </div>
+    );
+  }
 
   return (
     <div
       className="divination-two-col"
-      style={
-        isCollapsed
-          ? { width: "calc(100vw - 70px)", left: "70px" }
-          : {}
-      }
+      style={isCollapsed ? { width: "calc(100vw - 70px)", left: "70px" } : {}}
     >
       <div className="divination-left">
         <div className="divination-method-title">{method.name}</div>
@@ -63,13 +105,15 @@ function TwoColumn() {
 }
 
 export default function DivinationPage() {
+  // 每次渲染重新构建（含动态加载的自定义方法），保证新增/删除方法即时生效
+  const methods = buildAllMethods();
   return (
     <AppProvider
-      methods={METHODS}
+      methods={methods}
       datasources={DATASOURCES}
       layoutConfig={layoutConfig}
     >
-      <TwoColumn />
+      <TwoColumn methods={methods} />
     </AppProvider>
   );
 }
