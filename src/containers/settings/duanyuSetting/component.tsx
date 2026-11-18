@@ -2,42 +2,60 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Trans } from "react-i18next";
 import toast from "react-hot-toast";
-import { getAssertionConfig } from "../../../divination/domain/assertion.js";
+import {
+  getSteps,
+  saveSteps,
+  AssertionStep,
+} from "../../../divination/domain/assertionSteps";
+import { getDivinationCategories } from "../../../constants/divinationCategory";
+
+// 典籍类型 → 占断方法（内置映射；动态方法名直接用自身）
+const CATEGORY_METHOD: Record<string, string> = {
+  梅花: "meihua",
+  六爻: "zhouyi",
+  奇门: "qimen",
+};
 
 const DuanyuSetting = () => {
   const { t } = useTranslation();
-  const [config, setConfig] = useState<any>(() => getAssertionConfig());
+  const categories = getDivinationCategories();
+  const [category, setCategory] = useState(categories[0]?.name || "梅花");
+  const methodId = CATEGORY_METHOD[category] || category;
+  const [steps, setSteps] = useState<AssertionStep[]>(() => getSteps(methodId));
+  const [newBookName, setNewBookName] = useState("");
+  const [newBookPriority, setNewBookPriority] = useState("1");
 
-  const update = (patch: any) => setConfig((prev: any) => ({ ...prev, ...patch }));
-
-  const moveSource = (index: number, dir: number) => {
-    const next = [...config.sourcePriority];
-    const target = index + dir;
-    if (target < 0 || target >= next.length) return;
-    [next[index], next[target]] = [next[target], next[index]];
-    update({ sourcePriority: next });
+  const switchCategory = (cat: string) => {
+    setCategory(cat);
+    setSteps(getSteps(CATEGORY_METHOD[cat] || cat));
   };
 
-  const toggleDecisive = (level: string) => {
-    const next = config.decisiveLevels.includes(level)
-      ? config.decisiveLevels.filter((l: string) => l !== level)
-      : [...config.decisiveLevels, level];
-    update({ decisiveLevels: next });
+  const updateStep = (index: number, patch: Partial<AssertionStep>) => {
+    setSteps(steps.map((s, i) => (i === index ? { ...s, ...patch } : s)));
   };
 
-  const setVerdict = (key: string, val: string) => {
-    update({ verdict: { ...config.verdict, [key]: val } });
+  const addBookRef = (index: number) => {
+    const name = newBookName.trim();
+    if (!name) return;
+    const step = steps[index];
+    const bookRefs = [
+      ...step.bookRefs,
+      { book: name, priority: Number(newBookPriority) || 1 },
+    ];
+    updateStep(index, { bookRefs });
+    setNewBookName("");
+    setNewBookPriority("1");
+  };
+
+  const removeBookRef = (stepIndex: number, refIndex: number) => {
+    const step = steps[stepIndex];
+    updateStep(stepIndex, {
+      bookRefs: step.bookRefs.filter((_, i) => i !== refIndex),
+    });
   };
 
   const save = () => {
-    const override = {
-      sourcePriority: config.sourcePriority,
-      decisiveLevels: config.decisiveLevels,
-      verdict: config.verdict,
-      conflictText: config.conflictText,
-      noDecisiveText: config.noDecisiveText,
-    };
-    localStorage.setItem("assertionConfigOverride", JSON.stringify(override));
+    saveSteps(methodId, steps);
     toast.success(t("Change successful"));
   };
 
@@ -52,104 +70,141 @@ const DuanyuSetting = () => {
   return (
     <>
       <div className="setting-dialog-new-title">
-        <Trans>Assertion config</Trans>
+        <Trans>Divination category</Trans>
       </div>
+      <select
+        value={category}
+        onChange={(e) => switchCategory(e.target.value)}
+        className="lang-setting-dropdown"
+      >
+        {categories.map((c) => (
+          <option key={c.name} value={c.name}>
+            {c.name}
+          </option>
+        ))}
+      </select>
 
-      <div className="setting-dialog-new-title" style={{ fontSize: "14px" }}>
-        <Trans>Source priority</Trans>
-      </div>
-      {config.sourcePriority.map((level: string, index: number) => (
+      {steps.map((step, index) => (
         <div
-          key={level}
+          key={step.id}
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "4px 0",
+            border: "1px solid rgba(0,0,0,0.12)",
+            borderRadius: "8px",
+            padding: "12px",
+            marginTop: "12px",
+            opacity: step.enabled ? 1 : 0.55,
           }}
         >
-          <span style={{ fontSize: "14px", flex: 1 }}>
-            {index + 1}. {level}
-          </span>
-          <span
-            style={{ cursor: "pointer", color: "#0078d4", fontSize: "14px" }}
-            onClick={() => moveSource(index, -1)}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
           >
-            ↑
-          </span>
-          <span
-            style={{ cursor: "pointer", color: "#0078d4", fontSize: "14px" }}
-            onClick={() => moveSource(index, 1)}
-          >
-            ↓
-          </span>
+            <input
+              type="checkbox"
+              checked={step.enabled}
+              onChange={(e) => updateStep(index, { enabled: e.target.checked })}
+            />
+            <span style={{ fontWeight: 600, fontSize: "15px" }}>
+              {step.name}
+            </span>
+            <span style={{ marginLeft: "auto", fontSize: "13px" }}>
+              {t("Weight")}
+            </span>
+            <input
+              type="number"
+              value={step.weight}
+              onChange={(e) =>
+                updateStep(index, { weight: Number(e.target.value) })
+              }
+              style={{ width: "60px", ...inputStyle }}
+            />
+          </div>
+
+          <div style={{ marginTop: "8px" }}>
+            <input
+              value={step.basis}
+              placeholder={t("Basis")}
+              onChange={(e) => updateStep(index, { basis: e.target.value })}
+              style={inputStyle}
+            />
+          </div>
+
+          <div style={{ marginTop: "8px" }}>
+            {step.bookRefs.map((ref, ri) => (
+              <div
+                key={ri}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "3px 0",
+                  fontSize: "13px",
+                }}
+              >
+                <span style={{ flex: 1 }}>{ref.book}</span>
+                <span style={{ color: "#888" }}>
+                  {t("Priority")}: {ref.priority}
+                </span>
+                <span
+                  style={{ cursor: "pointer", color: "#d9534f" }}
+                  onClick={() => removeBookRef(index, ri)}
+                >
+                  {t("Delete")}
+                </span>
+              </div>
+            ))}
+            <div
+              style={{ display: "flex", gap: "8px", alignItems: "center" }}
+            >
+              <input
+                value={newBookName}
+                placeholder={t("Book name")}
+                onChange={(e) => setNewBookName(e.target.value)}
+                style={{ ...inputStyle, width: "50%" }}
+              />
+              <input
+                type="number"
+                value={newBookPriority}
+                placeholder={t("Priority")}
+                onChange={(e) => setNewBookPriority(e.target.value)}
+                style={{ ...inputStyle, width: "80px" }}
+              />
+              <span
+                style={{
+                  cursor: "pointer",
+                  color: "#0078d4",
+                  fontSize: "14px",
+                  whiteSpace: "nowrap",
+                }}
+                onClick={() => addBookRef(index)}
+              >
+                {t("Add")}
+              </span>
+            </div>
+          </div>
+
+          <div style={{ marginTop: "8px" }}>
+            <textarea
+              value={step.code}
+              placeholder="function stepLogic(step, findings) { return null; }"
+              onChange={(e) => updateStep(index, { code: e.target.value })}
+              style={{
+                width: "100%",
+                height: "80px",
+                padding: "8px",
+                borderRadius: "6px",
+                border: "1px solid rgba(0,0,0,0.15)",
+                fontFamily: "monospace",
+                fontSize: "12px",
+                resize: "vertical",
+              }}
+            />
+          </div>
         </div>
       ))}
-
-      <div className="setting-dialog-new-title" style={{ fontSize: "14px" }}>
-        <Trans>Decisive levels</Trans>
-      </div>
-      {config.sourcePriority.map((level: string) => (
-        <label
-          key={level}
-          style={{
-            fontSize: "13px",
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
-            padding: "3px 0",
-          }}
-        >
-          <input
-            type="checkbox"
-            checked={config.decisiveLevels.includes(level)}
-            onChange={() => toggleDecisive(level)}
-          />
-          {level}
-        </label>
-      ))}
-
-      <div className="setting-dialog-new-title" style={{ fontSize: "14px" }}>
-        <Trans>Verdict</Trans>
-      </div>
-      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-        <input
-          value={config.verdict.positive}
-          placeholder="吉"
-          onChange={(e) => setVerdict("positive", e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          value={config.verdict.negative}
-          placeholder="凶"
-          onChange={(e) => setVerdict("negative", e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          value={config.verdict.neutral}
-          placeholder="平"
-          onChange={(e) => setVerdict("neutral", e.target.value)}
-          style={inputStyle}
-        />
-      </div>
-
-      <div className="setting-dialog-new-title" style={{ fontSize: "14px" }}>
-        <Trans>Conflict text</Trans>
-      </div>
-      <input
-        value={config.conflictText}
-        onChange={(e) => update({ conflictText: e.target.value })}
-        style={inputStyle}
-      />
-
-      <div className="setting-dialog-new-title" style={{ fontSize: "14px" }}>
-        <Trans>No decisive text</Trans>
-      </div>
-      <input
-        value={config.noDecisiveText}
-        onChange={(e) => update({ noDecisiveText: e.target.value })}
-        style={inputStyle}
-      />
 
       <div style={{ marginTop: "16px" }}>
         <span

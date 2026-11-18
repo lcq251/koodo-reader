@@ -16,7 +16,7 @@ export default function DuanYuPanel() {
   const findings = quotes(methodId, result, intent)
   const conflicts = detectConflicts(findings)
   const shown = findings.filter((f) => dataSource.levels.includes(f.sourceLevel))
-  const conclusion = assert(shown, { ...ASSERTION_CONFIG, decisiveLevels })
+  const conclusion = assert(shown, { ...ASSERTION_CONFIG, decisiveLevels }, methodId)
   const leixiang = methodId === 'meihua' ? leixiangOf(result) : null
   const guayi = methodId === 'meihua' ? guayiOf(result.main.fullName) : null
   const notes = methodId === 'meihua' ? notesOf(result.main.fullName) : null
