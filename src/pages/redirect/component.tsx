@@ -181,7 +181,7 @@ const Redirect = () => {
     !params.access_token &&
     (!hash || hash === "#" || hash === "#/")
   ) {
-    return <Navigate to="/manager/home" replace />;
+    return <Navigate to="/manager/divination" replace />;
   }
   return <AuthFlow />;
 };

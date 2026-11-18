@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import "./header.css";
-import SearchBox from "../../components/searchBox";
 import ImportLocal from "../../components/importLocal";
 import {
   ConfigService,
@@ -811,12 +810,6 @@ const Header = (props: HeaderProps) => {
           )}
         </div>
       )}
-      <div
-        className="header-search-container"
-        style={isCollapsed ? { width: "369px" } : {}}
-      >
-        <SearchBox />
-      </div>
       <div
         className="setting-icon-parrent"
         style={isCollapsed ? { marginLeft: "430px" } : {}}
